@@ -1,29 +1,31 @@
 import React, { Component } from 'react'
 
 class Counter extends Component {
-    state = { 
-        count: 0
-    };
-
-    styles = {
-        fontSize: 25,
-        fontWeight: 'bold',
-        fontColor: '#555'
-    };
 
     render(){
-        React.createElement('h1')
         return (
         <div>
-            <span style={ this.styles } className='badge m-2'>{this.formatCount()}</span>
-            <button className='btn btn-secondary btn-small'>Increment</button>
+            <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+            <button onClick={() => this.props.onIncrement(this.props.counter)} className='button'>+</button>
+            <button onClick={() => this.props.onDecrement(this.props.counter)} className='button-decrement'>-</button>
+            <button onClick={() => this.props.onDelete(this.props.counter.id)}>Delete Row</button>
         </div>
         );
+    };
+
+    getBadgeClasses() {
+        let classes = "";
+        classes += (this.props.counter.value === 0 ? "badge" : "badge-warning");
+        return classes;
     }
 
     formatCount(){
-        const { count } = this.state;
-        return count === 0 ? "Zero" : count
+        const { value } = this.props.counter;
+        return value === 0 ? "Zero" : value;
+    }
+
+    handleDecrement = () =>{
+        this.setState({ value: this.props.value - 1 });
     }
 }
 
